@@ -3,6 +3,18 @@ console = require('console.table');
 mysql = require('mysql');
 
 
+const connection = mysql.createConnection({
+    host: 'localhost',
+  
+    port: 3306,
+  
+    user: 'root',
+  
+    password: 'root',
+    database: 'employee_managementDB',
+  });
+
+
 
 
 //menu function - use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
