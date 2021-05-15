@@ -1,15 +1,8 @@
 const inquirer = require("inquirer");
-const console = require("console.table");
+// const console = require("console.table");
 const db = require("./db/queries")
 
 
-// const connection = mysql.createConnection({
-//   host: "localhost",
-//    port: 3306,
-//   user: "root",
-//   password: "root",
-//   database: "employee_managementDB",
-// });
 
 //menu function - use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
 // const start = () => {
@@ -67,24 +60,14 @@ const db = require("./db/queries")
 //     });
 // };
 
-connection.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
 
-
-const viewAllEmployees = () => {
-  // const query =
-  //   'SELECT * FROM employee_managementdb.employee';
-  connection.query('SELECT * FROM employee_managementdb.employee', (err, res) => {
-  if (err) {throw err
-  
+async function viewEmployees(){
+  let employees = await db.findAllEmployees()
+  console.table(employees);
 }
-  // console.log(res);
-  // connection.end();
-   });
-  //  start();
-};
+
+
+viewEmployees()
 
 // start()
 //create functions for each selection
@@ -103,4 +86,4 @@ const viewAllEmployees = () => {
 
 //Create a class for interacting database ( Create, Delete, Put, Get)
 // 12 functions - CRUD for each class and unit testing
-viewAllEmployees()
+
