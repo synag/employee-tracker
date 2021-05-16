@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-// const console = require("console.table");
+const consoleT = require("console.table");
 const db = require("./db/queries")
 
 
@@ -60,50 +60,60 @@ const start = () => {
     });
 };
 
-
 async function viewEmployees(){
   let employees = await db.findAllEmployees()
-  console.table(employees);
+  let tabularView = consoleT.getTable([],employees)
+  console.log(tabularView);
+  start()
 }
+
+// async function viewEmployees(){
+//   let employees = await db.findAllEmployees()
+//   let tabularView = consoleT.getTable(['id','first_name','last_name','title','department','salary','manager'],employees)
+//   console.log(tabularView);
+//   start()
+// }
 
 async function viewAllEmployeesByDept(){ 
   let employeesDept = await db.findAllEmployeesByDepartment()
   console.table(employeesDept);
+  start()
+}
+async function  viewAllEmpoyeesByManager(){ 
+  let employeesManager = await db.findAllEmployeesByManger()
+  console.table(employeesManager);
+  start()
 }
 
 async function addEmployee(){ 
   let employeeAdd = await db.addEmployee()
   console.table(employeeAdd);
+  start()
 }
 
 async function removeEmployee(){ 
   let employeesRemove = await db.removeEmployee()
   console.table(employeesRemove);
+  start()
 }
 
 async function UpdateEmployeeByRole(){ 
   let employeeUpdateRole = await db.updateEmployeeRole()
   console.table(employeeUpdateRole);
+  start()
 }
 
-async function updateEmployeerole(){ 
+async function updateEmployeeManager(){ 
   let employeeUpdateManger = await db.updateEmployeeManager()()
   console.table(employeeUpdateManger);
+  start()
 }
 
 start()
 
-// start()
-//create functions for each selection
-//view all employees
-//view all employees by department
-//view all employeees by manager D
-//Add employees
-//remove employees
-//update employee by role
-//update employee manager
 
-//
+
+
 //use console modele to display database
 
 //Watch video to get started
