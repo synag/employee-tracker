@@ -67,21 +67,17 @@ async function viewEmployees(){
   start()
 }
 
-// async function viewEmployees(){
-//   let employees = await db.findAllEmployees()
-//   let tabularView = consoleT.getTable(['id','first_name','last_name','title','department','salary','manager'],employees)
-//   console.log(tabularView);
-//   start()
-// }
 
 async function viewAllEmployeesByDept(){ 
   let employeesDept = await db.findAllEmployeesByDepartment()
-  console.table(employeesDept);
+  let tabularView = consoleT.getTable([],employeesDept)
+  console.log(tabularView);
   start()
 }
 async function  viewAllEmpoyeesByManager(){ 
   let employeesManager = await db.findAllEmployeesByManger()
-  console.table(employeesManager);
+  let tabularView = consoleT.getTable([],employeesManager)
+  console.log(tabularView);
   start()
 }
 

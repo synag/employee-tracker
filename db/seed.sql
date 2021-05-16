@@ -1,28 +1,51 @@
 use employee_managementDB;
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Human", "Krewella", 2,4);
+VALUES ("Human", "Krewella", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Marcus", "Hunter", 1,4);
+VALUES ("Marcus", "Hunter", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Laura", "Frasier", 3,4);
+VALUES ("Laura", "Frasier", 3,9);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Denniw", "Frasier", 3,10);
+VALUES ("Sarah", "Lewis", 1,10);
 
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("John", "Benbow", 2,3);
+
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("Mike", "Johnson", 3,9);
+
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("Camilla", "Calypso", 1,10);
+
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("Megan", "Bayless", 2,3);
+
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("Shannon", "Sharp", 1,10);
+
+INSERT INTO employee (first_name, last_name, role_id,manager_id)
+VALUES ("Tim", "Tebow", 1,10);
 
 
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Mid-Level Engineer", 80000, 4);
+VALUES ("Engineer", 110000, 4);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("junior-Engineer", 60000, 4);
+VALUES ("Sales",120000, 5);
 
 INSERT INTO role (title, salary, department_id)
-VALUES ("Senior Engineer",120000, 4);
+VALUES ("Lawyer", 120000, 3);
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Human Resource", 100000, 2);
+
+INSERT INTO role (title, salary, department_id)
+VALUES ("Financial Associate",100000, 1);
 
 
 INSERT INTO department (name)
@@ -32,8 +55,11 @@ INSERT INTO department (name)
 VALUES ("Human Resources");
 
 INSERT INTO department (name)
-VALUES ("Purchasing");
+VALUES ("Legal");
 
 INSERT INTO department (name)
 VALUES ("Engineering");
+
+INSERT INTO department (name)
+VALUES ("Sales");
 
