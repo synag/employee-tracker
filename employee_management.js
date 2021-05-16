@@ -4,61 +4,61 @@ const db = require("./db/queries")
 
 
 
-//menu function - use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
-// const start = () => {
-//   inquirer
-//     .prompt({
-//       name: "opening",
-//       type: "list",
-//       message: "Welcome! What would you like to do?",
-//       choices: [
-//         "View all employees",
-//         "View all employees by department",
-//         "View all employeees by manager",
-//         "Add employees ",
-//         "Remove employees",
-//         "Update employee by role",
-//         "update employee manager",
-//         "Exit Application"
-//       ],
-//     })
-//     .then((answer) => {
-//       switch (answer.opening) {
-//         case "View all employees":
-//           viewAllEmployees();
-//           break;
+// menu function =() =>use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
+const start = () => {
+  inquirer
+    .prompt({
+      name: "opening",
+      type: "list",
+      message: "Welcome! What would you like to do?",
+      choices: [
+        "View all employees",
+        "View all employees by department",
+        "View all employeees by manager",
+        "Add employees ",
+        "Remove employees",
+        "Update employee by role",
+        "update employee manager",
+        "Exit Application"
+      ],
+    })
+    .then((answer) => {
+      switch (answer.opening) {
+        case "View all employees":
+          viewEmployees();
+          break;
 
-//         case "View all employees by department":
-//           viewAllEmployeeByDept();
-//           break;
+        case "View all employees by department":
+          viewAllEmployeesByDept();
+          break;
 
-//         case "View all employeees by manager":
-//           viewAllEmpoyeesByManager();
-//           break;
+        case "View all employeees by manager":
+          viewAllEmpoyeesByManager();
+          break;
 
-//         case "Add employees ":
-//           addEmployee();
-//           break;
+        case "Add employees ":
+          addEmployee();
+          break;
 
-//         case "Remove employees":
-//           RemoveEmployee();
-//           break;
+        case "Remove employees":
+          removeEmployee();
+          break;
 
-//         case "Update employee by role":
-//           UpdateEmployeeByRole();
-//           break;
+        case "Update employee by role":
+          UpdateEmployeeByRole();
+          break;
 
-//         case "update employee manager":
-//           updateEmployeeManager();
-//           break;
+        case "update employee manager":
+          updateEmployeeManager();
+          break;
 
-//         case "Exit Application":
-//           // connection.end();
+        case "Exit Application":
+          // connection.end();
          
-//           break;
-//       }
-//     });
-// };
+          break;
+      }
+    });
+};
 
 
 async function viewEmployees(){
@@ -66,8 +66,32 @@ async function viewEmployees(){
   console.table(employees);
 }
 
+async function viewAllEmployeesByDept(){ 
+  let employeesDept = await db.findAllEmployeesByDepartment()
+  console.table(employeesDept);
+}
 
-viewEmployees()
+async function addEmployee(){ 
+  let employeeAdd = await db.addEmployee()
+  console.table(employeeAdd);
+}
+
+async function removeEmployee(){ 
+  let employeesRemove = await db.removeEmployee()
+  console.table(employeesRemove);
+}
+
+async function UpdateEmployeeByRole(){ 
+  let employeeUpdateRole = await db.updateEmployeeRole()
+  console.table(employeeUpdateRole);
+}
+
+async function updateEmployeerole(){ 
+  let employeeUpdateManger = await db.updateEmployeeManager()()
+  console.table(employeeUpdateManger);
+}
+
+start()
 
 // start()
 //create functions for each selection
