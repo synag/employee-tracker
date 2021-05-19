@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const consoleT = require("console.table");
 const db = require("./db/queries")
-// const managerSelected = []
+const managerSelected = []
 const managerTest =[]
 // const department =[]
 // const employeeAdd = []
@@ -112,18 +112,12 @@ const managerTest =[]
 //   start()
 // }
 
-
-// moviePatrons.forEach(patron => console.log(patron.age));
-// const managersList = () => {
  async function otherManager(){
    const managerObj = await db.getManagersList()
    managerObj.forEach(manager => managerTest.push(manager.first_name +' '+ manager.last_name))
    console.log(managerTest)
-    console.log(managerObj)
+    console.log(managerObj[0].id)
   
-// managersList()
-// otherManager()
-// //   // }  
   const managers = [
     {   
        type: "list",
@@ -131,36 +125,33 @@ const managerTest =[]
        message: "Select the Manager",
        choices: managerTest,
      },
-       
     ];
       inquirer.prompt(managers).then((answer) => {
-       managerSelected.push(answer)
+        // console.log(answer)
+        switch (answer.managerList) {
+          case managerTest[0]:
+              managerSelected.push(managerObj[0].id)
+               break;
+     
+             case managerTest[1]:
+              managerSelected.push(managerObj[1].id)
+              
+               break;
+     
+             case managerTest[2]:
+              managerSelected.push(managerObj[2].id)
+               break;
+   
+             
+         }
+
+      //  managerSelected.push(answer)
        console.log(managerSelected)
     
-
-      
       }
     )
  }
-//       //  switch (answer.managerList) {
-   //     case 'Laura Frasier':
-//       //       viewAllEmpoyeesByManager(3);
-//       //       console.log(selectedManager_id)
-//       //       break;
-  
-//       //     case 'Shannon Sharp':
-          
-//       //       viewAllEmpoyeesByManager(9);
-//       //       console.log(selectedManager_id)
-//       //       break;
-  
-//       //     case 'Tim Tebow':
-//       //       viewAllEmpoyeesByManager(10);
-//       //       console.log(selectedManager_id)
-//       //       break;
-
-          
-      // }
+       
  
    
       otherManager()
