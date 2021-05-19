@@ -7,7 +7,7 @@ INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Marcus", "Hunter", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Laura", "Frasier", 3,9);
+VALUES ("Laura", "Frasier", 3,);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Sarah", "Lewis", 1,10);
@@ -25,10 +25,10 @@ INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Megan", "Bayless", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Shannon", "Sharp", 1,10);
+VALUES ("Shannon", "Sharp", 1,);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Tim", "Tebow", 1,10);
+VALUES ("Tim", "Tebow", 1,);
 
 
 
