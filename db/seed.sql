@@ -7,28 +7,28 @@ INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Marcus", "Hunter", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Laura", "Frasier", 3,);
+VALUES ("Laura", "Frasier", 2,NULL);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Sarah", "Lewis", 1,10);
+VALUES ("Sarah", "Lewis", 1,9);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("John", "Benbow", 2,3);
+VALUES ("John", "Benbow", 1,9);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Mike", "Johnson", 3,9);
+VALUES ("Mike", "Johnson", 1,9);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Camilla", "Calypso", 1,10);
+VALUES ("Camilla", "Calypso", 3,10);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Megan", "Bayless", 2,3);
+VALUES ("Megan", "Bayless", 3,10);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Shannon", "Sharp", 5,);
+VALUES ("Shannon", "Sharp", 1,Null);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Tim", "Tebow", 1,);
+VALUES ("Tim", "Tebow", 3,Null);
 
 
 

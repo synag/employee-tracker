@@ -2,11 +2,7 @@ const inquirer = require("inquirer");
 const consoleT = require("console.table");
 const db = require("./db/queries");
 const managerSelected = [];
-const managerTest = [];
-// const department =[]
-// const employeeAdd = []
-// const updateRole = []
-// const updateManager =[]
+const managerNames = [];
 
 // // menu function =() =>use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
 // const start = () => {
@@ -37,7 +33,7 @@ const managerTest = [];
 //           break;
 
 //         case "View all employeees by manager":
-//          viewByManager()
+//          viewEmployeesByManager()
 //           break;
 
 //         case "Add employees ":
@@ -64,19 +60,22 @@ const managerTest = [];
 //     });
 // };
 
-// async function viewEmployees(){
-//   let employees = await db.findAllEmployees()
-//   let tabularView = consoleT.getTable([],employees)
-//   console.log(tabularView);
-//   start()
-// }
+async function viewEmployees(){
+  let employees = await db.findAllEmployees()
+  let tabularView = consoleT.getTable([],employees)
+  console.log(tabularView);
+  // start()
+}
+//works but need a switch statement and hardcode id and also the department
+async function viewAllEmployeesByDept(dept){
+  let employeesDept = await db.findAllEmployeesByDepartment(dept)
+  tabularView = consoleT.getTable([],employeesDept)
+  console.log(tabularView);
+  
+}
 
-// async function viewAllEmployeesByDept(){
-//   let employeesDept = await db.findAllEmployeesByDepartment("Finance")
-//   let tabularView = consoleT.getTable([],employeesDept)
-//   console.log(tabularView);
-//   start()
-// }
+
+// viewAllEmployeesByDept(3)
 // async function  viewAllEmpoyeesByManager(){
 
 //   let employeesManager = await db.findAllEmployeesByManger()
@@ -85,82 +84,80 @@ const managerTest = [];
 //   start()
 // }
 
-// async function addEmployee(){
-//   let employeeAdd = await db.addEmployee()
-//   console.table(employeeAdd);
-//   start()
-// }
+async function employeeAdd(firstName, lastName,role, managerId){
+  let employeeAdd = await db.addEmployee(firstName, lastName,role, managerId)
+console.log(employeeAdd)
+   
+  // start()
+}
 
-// async function removeEmployee(){
-//   let employeesRemove = await db.removeEmployee()
-//   console.table(employeesRemove);
-//   start()
-// }
 
-// async function UpdateEmployeeByRole(){
-//   let employeeUpdateRole = await db.updateEmployeeRole()
-//   console.table(employeeUpdateRole);
-//   start()
-// }
+async function removeEmployee(employeeId){
+  let employeesRemove = await db.deleteEmployee(employeeId)
+ 
+  // start()
+}
 
-// async function updateEmployeeManager(){
-//   let employeeUpdateManger = await db.updateEmployeeManager()
-//   console.table(employeeUpdateManger);
-//   start()
-// }
 
-async function viewByManager() {
-  const managerObj = await db.getManagersList();
-  managerObj.forEach((manager) =>
-    managerTest.push(manager.first_name + " " + manager.last_name)
+
+
+async function updateEmployeeByRole(role,id){
+  let employeeUpdateRole = await db.updateEmployeeRole(role,id)
+  viewEmployees
+}
+
+async function updateEmployeeManager(manager,id){
+  let employeeUpdateManger = await db.updateEmployeeManager(manager,id)
+  console.table(employeeUpdateManger);
+}
+
+
+async function viewEmployeesByManager() {
+  const managerInfo = await db.getManagersList();
+  managerInfo.forEach((manager) =>
+    managerNames.push(manager.first_name + " " + manager.last_name)
   );
-  console.log(managerTest);
-  console.log(managerObj[0].id);
 
   const managers = [
     {
       type: "list",
       name: "managerList",
       message: "Select the Manager",
-      choices: managerTest,
+      choices: managerNames,
     },
   ];
   inquirer.prompt(managers).then((answer) => {
-    // console.log(answer)
     switch (answer.managerList) {
-      case managerTest[0]:
-        managerSelected.push(managerObj[0].id);
-        let managerEmployee = db.findAllEmployeesByManager(managerSelected);
-        break;
-
-      case managerTest[1]:
-        managerSelected.push(managerObj[1].id);
-
-        async function managerStaff() {
-          managerEmployee = await db.findAllEmployeesByManage();
-          // let tabularView = consoleT.getTable([],managerEmployees);
-          // console.log(tabularView);
-          console.log(managerEmployee);
-        
+      case managerNames[0]:
+        managerSelected.push(managerInfo[0].id);
+        async function getManagerStaff(managerSelected){
+        let managerEmployees = await db.findAllEmployeesByManager(managerSelected);
+         tabularView = consoleT.getTable([],managerEmployees)
+        console.log(tabularView)
         }
+        getManagerStaff(managerSelected)
+        
         break;
 
-      case managerTest[2]:
-        managerSelected.push(managerObj[2].id);
-        managerEmployees = db.findAllEmployeesByManager(managerSelected);
+      case managerNames[1]:
+       
+        managerSelected.push(managerInfo[1].id);
+        getManagerStaff(managerSelected)
+        
         break;
 
-      //
-      // }
+      case managerNames[2]:
+        managerSelected.push(managerInfo[2].id);
+         getManagerStaff(managerSelected)
+
+      
     }
 
-    //  managerSelected.push(answer)
-    console.log(managerSelected);
   });
 }
 
         
 
-viewByManager();
 
-// start()
+
+
