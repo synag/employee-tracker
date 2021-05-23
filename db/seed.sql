@@ -25,7 +25,7 @@ INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Megan", "Bayless", 2,3);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
-VALUES ("Shannon", "Sharp", 1,);
+VALUES ("Shannon", "Sharp", 5,);
 
 INSERT INTO employee (first_name, last_name, role_id,manager_id)
 VALUES ("Tim", "Tebow", 1,);

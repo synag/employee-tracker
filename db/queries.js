@@ -1,5 +1,8 @@
 const connection = require("./connection");
 
+
+
+
 class DB {
   constructor(connection) {
     this.connection = connection;
@@ -10,62 +13,104 @@ class DB {
     );
   }
 
-  findAllEmployeesByDepartment() {
-    return this.connection.query(
-      `SELECT employee.id, employee.first_name,employee.last_name, role.title, department.name AS department, role.salary,CONCAT(manager.first_name,   '  ', manager.last_name) AS manager 
-      FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id
-     Where department.name =`//need to add prompt info and update template literal
-     ) }
-  findAllEmployeesByManger() {
+  findAllEmployeesByDepartment = (dept) => {
+    const query = ` SELECT employee.id, employee.first_name,employee.last_name, role.title, department.name AS department, role.salary,CONCAT(manager.first_name, ' ' , manager.last_name) AS manager 
+    FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id
+  WHERE department.id = ?`;
+   connection.query(query, dept, (err, res) => {
+       console.log(res)
+       connection.end();
 
-    return this.connection.query(
-      `SELECT employee.id, employee.first_name,employee.last_name, role.title, department.name AS department, role.salary,CONCAT(manager.first_name, ' ' , manager.last_name) AS manager 
-      FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id
-    WHERE employee.manager_id`);
+   })
+}
 
-  }
+findAllEmployeesByManager = (one) => {
+  const query = ` SELECT employee.id, employee.first_name,employee.last_name, role.title, department.name AS department, role.salary,CONCAT(manager.first_name, ' ' , manager.last_name) AS manager 
+  FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id
+WHERE employee.manager_id = ?`;
+ connection.query(query, one, (err, res) => {
+     console.log(res)
+     connection.end();
+   
+  });
+}
   getManagersList(){
     return this.connection.query(
     `SELECT employee.id, employee.first_name,employee.last_name, role.title, department.name AS department, role.salary,CONCAT(manager.first_name, ' ' , manager.last_name) AS manager 
     FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id
-  WHERE employee.manager_id is NULL` //list of managers names
-    );
+  WHERE employee.manager_id is NULL` );
   }
 
+  addEmployee =(firstName, lastName,role, managerId) => {
   
-
-
-
-  addEmployee() {
-    return this.connection.query(
-      `INSERT INTO employee (first_name, last_name, role_id,manager_id)
-        VALUES (${"Mark"}, ${"Eddy"}, ${3},${10});`
-    );
+    const query = `INSERT INTO employee SET?`
+    connection.query(query,{first_name:firstName, 
+      last_name: lastName,
+      role_id:role, 
+      manager_id :managerId}, 
+      (err,res) =>{
+      console.log(res);
+      connection.end()
+    })
+    
+  }
+  deleteEmployee = (id) => {
+  
+    const query = `DELETE FROM employee where?`
+    connection.query(query,
+      [
+        {
+          id: id,
+        },
+      ],
+    (err,res) =>{
+      console.log(res);
+      connection.end()
+    })
   }
 
-  removeEmployee() {
-    return this.connection.query(
-      `DELETE FROM employee
-    WHERE id = ${3}`
-    );
+  updateEmployeeRole =(role, id) => {
+  
+    const query = `UPDATE employee SET? where ?` 
+    connection.query(query,
+      [
+        {
+          role_id: role,
+        },
+        
+        {
+          id: id,
+        },
+      ],
+      (err,res) =>{
+      console.log(res);
+      connection.end()
+    })
+    
   }
 
-  updateEmployeeRole() {
-    return this.connection.query(
-      `UPDATE employee
-    Set role_id = ${1}
-    WHERE id = ${3}`
-    );
-  }
 
-
-  updateEmployeeManager() {
-    return this.connection.query(
-      `UPDATE employee
-    Set manager_id = ${1}
-    WHERE id = ${3}`
-    );
+  updateEmployeeManager =(manager, id) => {
+  
+    const query = `UPDATE employee SET? where ?` 
+    connection.query(query,
+      [
+        {
+          manager_id: manager,
+        },
+        
+        {
+          id: id,
+        },
+      ],
+      (err,res) =>{
+      console.log(res);
+      connection.end()
+    })
   }
+  
+  
 }
 
 module.exports = new DB(connection);
+

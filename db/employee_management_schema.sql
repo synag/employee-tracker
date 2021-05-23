@@ -28,5 +28,3 @@ CREATE TABLE role (
 
 
 
--- SELECT * FROM top5000;
--- select * from top_albums;
