@@ -7,6 +7,8 @@ const managerNames = [];
 const employeeNames = [];
 const employeeIds = [];
 const managerIds = []
+const getRoles =[]
+const roleIds = []
 
 // // menu function =() =>use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
 // const start = () => {
@@ -90,23 +92,60 @@ async function removeEmployee(employeeId) {
 
   // start()
 }
-
-async function updateEmployeeByRole(role, id) {
-  let employeeUpdateRole = await db.updateEmployeeRole(role, id);
-  viewEmployees;
-}
-
-
-async function updateEmployeeManager() {
+async function updateEmployeesRole(){
   let employeeInfo = await db.findAllEmployeesWithoutManagers();
   employeeInfo.forEach((employee) =>
     employeeNames.push(employee.first_name + " " + employee.last_name)
   );
   employeeInfo.forEach((employeeId) => employeeIds.push(employeeId.id));
 
+  getListofRoles()
+
+  const updateRolePrompt = [
+    {
+      type: "list",
+      name: "employeeList",
+      message: "Which employee would you like to update?",
+      choices: employeeNames,
+    },
+    {
+      type: "list",
+      name: "roleList",
+      message: "Which role would like to change to?",
+      choices: getRoles,
+    },
+  ];
+  inquirer.prompt(updateRolePrompt).then((answer) => {
+
+    let selectedEmployeeId =
+    employeeIds[employeeNames.indexOf(answer.employeeList)];
+  let selectedRole = roleIds[getRoles.indexOf(answer.roleList)]
+
+    updateEmployeeByRole(selectedRole, selectedEmployeeId)
+   async function updateEmployeeByRole(selectedRole, selectedEmployeeId) {
+  let employeeUpdateRole = await db.updateEmployeeRole(selectedRole, selectedEmployeeId);
+
+}
+
+    }
+
+  )}
+
+
+
+
+
+
+
+async function updateEmployeeManager() {
+  let employeeInfo = await db.findAllEmployeesWithoutManagers();
+  employeeInfo.forEach((employee) =>
+    employeeNames.push(employee.first_name + " " + employee.last_name));
+  employeeInfo.forEach((employeeId) => employeeIds.push(employeeId.id));
+
   getListofManagers()
 
-  const employees = [
+  const updateManagerPrompt = [
     {
       type: "list",
       name: "employeeList",
@@ -120,7 +159,7 @@ async function updateEmployeeManager() {
       choices: managerNames,
     },
   ];
-  inquirer.prompt(employees).then((answer) => {
+  inquirer.prompt(updateManagerPrompt).then((answer) => {
     let selectedEmployeeId =
       employeeIds[employeeNames.indexOf(answer.employeeList)];
     let selectedManager = managerIds[managerNames.indexOf(answer.managerList)];
@@ -185,10 +224,13 @@ async function getListofManagers(){
   );
 
   managerInfo.forEach((manager) => managerIds.push(manager.id));
-  // console.log(managerInfo)
-  console.log(managerIds)
   }
 
-  updateEmployeeManager()
+async function getListofRoles(){
+  let managerInfo = await db.getRoles();
+  managerInfo.forEach((roles) => getRoles.push(roles.title));
+  managerInfo.forEach((roles) => roleIds.push(roles.id));
+}
  
   
+updateEmployeesRole()

@@ -38,6 +38,11 @@ WHERE employee.manager_id = ${manager}`);
   WHERE employee.manager_id is NULL` );
   }
 
+  getRoles(){
+    return this.connection.query(
+    `SELECT * FROM employee_managementdb.role` );
+  }
+
   addEmployee =(firstName, lastName,role, managerId) => {
     return this.connection.query(`INSERT INTO employee (first_name,last_name, role_id,manager_id) VALUES ('${firstName}', '${lastName}',${role},${managerId})`);
     
