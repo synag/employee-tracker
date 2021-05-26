@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const consoleT = require("console.table");
 const db = require("./db/queries");
-const { updateEmployeeRole } = require("./db/queries");
 const managerSelected = [];
 const managerNames = [];
 const employeeNames = [];
@@ -9,78 +8,75 @@ const employeeIds = [];
 const managerIds = [];
 const getRoles = [];
 const roleIds = [];
-const getDepartments = []
-const getDepartmentIds = []
+const getDepartments = [];
+const getDepartmentIds = [];
 
-// // menu function =() =>use switch (Includes choices for all functions/(descriptions message at bottonmove up and down to reval more choices)
-// const start = () => {
-//   inquirer
-//     .prompt({
-//       name: "opening",
-//       type: "list",
-//       message: "Welcome! What would you like to do?",
-//       choices: [
-//         "View all employees",
-//         "View all employees by department",
-//         "View all employeees by manager",
-//         "Add employees ",
-//         "Remove employees",
-//         "Update employee by role",
-//         "update employee manager",
-//         "Exit Application"
-//       ],
-//     })
-//     .then((answer) => {
-//       switch (answer.opening) {
-//         case "View all employees":
-//           viewEmployees();
-//           break;
+const start = () => {
+  inquirer
+    .prompt({
+      name: "opening",
+      type: "list",
+      message: "Welcome! What would you like to do?",
+      choices: [
+        "View all employees",
+        "View all employees by department",
+        "View all employees by manager",
+        "Add employees ",
+        "Remove employees",
+        "Update employee by role",
+        "update employee manager",
+        "Exit Application",
+      ],
+    })
+    .then((answer) => {
+      switch (answer.opening) {
+        case "View all employees":
+          viewEmployees();
+          start();
+          break;
 
-//         case "View all employees by department":
-//           viewAllEmployeesByDept();
-//           break;
+        case "View all employees by department":
+          getAllEmployeesbyDepartment();
+          break;
 
-//         case "View all employeees by manager":
-//          viewEmployeesByManager()
-//           break;
+        case "View all employees by manager":
+          viewEmployeesByManager();
+          break;
 
-//         case "Add employees ":
-//           addEmployee();
-//           break;
+        case "Add employees ":
+          addEmployee();
+          break;
 
-//         case "Remove employees":
-//           removeEmployee();
-//           break;
+        case "Remove employees":
+          removeEmployee();
+          break;
 
-//         case "Update employee by role":
-//           UpdateEmployeeByRole();
-//           break;
+        case "Update employee by role":
+          updateEmployeesRole();
+          break;
 
-//         case "update employee manager":
-//           updateEmployeeManager();
-//           break;
+        case "update employee manager":
+          updateEmployeeManager();
+          break;
 
-//         case "Exit Application":
-//               connection.end();
-
-//           break;
-//       }
-//     });
-// };
+        case "Exit Application":
+          db.connection.end();
+          break;
+      }
+    });
+};
 
 async function viewEmployees() {
   let employees = await db.findAllEmployees();
   let tabularView = consoleT.getTable([], employees);
   console.log(tabularView);
-  // start()
 }
-//works but need a switch statement and hardcode id and also the department
 
-async function getAllEmployeesbyDepartment(){
-  let departmentInfo = await db.getDepartments()
-  departmentInfo.forEach((department) =>
-  getDepartments.push(department.name)
-  );
+
+
+async function getAllEmployeesbyDepartment() {
+  let departmentInfo = await db.getDepartments();
+  departmentInfo.forEach((department) => getDepartments.push(department.name));
 
   departmentInfo.forEach((department) => getDepartmentIds.push(department.id));
 
@@ -94,22 +90,28 @@ async function getAllEmployeesbyDepartment(){
   ];
 
   inquirer.prompt(viewEmployeeByDepartmentPrompt).then((answer) => {
-  let selectedDepartment = getDepartmentIds[getDepartments.indexOf(answer.departmentList)];
+    let selectedDepartment =
+      getDepartmentIds[getDepartments.indexOf(answer.departmentList)];
 
-  viewAllEmployeesByDept(selectedDepartment)
-async function viewAllEmployeesByDept(dept) {
-  let employeesDept = await db.findAllEmployeesByDepartment(dept);
-  tabularView = consoleT.getTable([], employeesDept);
-  console.log(tabularView);
+    viewAllEmployeesByDept(selectedDepartment);
+    async function viewAllEmployeesByDept(dept) {
+      let employeesDept = await db.findAllEmployeesByDepartment(dept);
+      tabularView = consoleT.getTable([], employeesDept);
+      console.log(tabularView);
+    }
+
+    start();
+  });
 }
 
-})
-}
+async function addEmployee() {
+  const managerInfo = await db.getManagersList();
+  managerInfo.forEach((manager) =>
+    managerNames.push(manager.first_name + " " + manager.last_name)
+  );
+  managerInfo.forEach((manager) => managerIds.push(manager.id));
 
-
-function addemployee() {
   getListofRoles();
-  getListofManagers();
 
   const addEmployeePrompt = [
     {
@@ -145,21 +147,13 @@ function addemployee() {
       selectedRole,
       selectedManager
     );
-    async function employeeAdd(firstName, lastName, role,manager) {
-      await db.addEmployee(
-        firstName,
-        lastName,
-        role,
-        manager
-      );
-      
+    async function employeeAdd(firstName, lastName, role, manager) {
+      await db.addEmployee(firstName, lastName, role, manager);
     }
-    // console.log("Employee Added!");
+    start();
   });
- 
-
-
 }
+
 async function removeEmployee() {
   let employeeInfo = await db.findAllEmployeesWithoutManagers();
   employeeInfo.forEach((employee) =>
@@ -184,6 +178,7 @@ async function removeEmployee() {
       let employeesRemove = await db.deleteEmployee(selectedEmployeeId);
     }
     console.log("Employeee deleted");
+    start();
   });
 }
 
@@ -193,7 +188,6 @@ async function updateEmployeesRole() {
     employeeNames.push(employee.first_name + " " + employee.last_name)
   );
   employeeInfo.forEach((employeeId) => employeeIds.push(employeeId.id));
-
   getListofRoles();
 
   const updateRolePrompt = [
@@ -221,9 +215,10 @@ async function updateEmployeesRole() {
         selectedRole,
         selectedEmployeeId
       );
+      console.log("Updated!");
+      start();
     }
   });
-  console.log("Employee's Role Updated");
 }
 
 async function updateEmployeeManager() {
@@ -263,49 +258,44 @@ async function updateEmployeeManager() {
         selectedManager,
         selectedEmployeeId
       );
-      console.table(employeeUpdateManger);
     }
+    console.log("Employee's Manager Updated");
   });
-  console.log("Employee's Manager Updated");
 }
 
 function viewEmployeesByManager() {
   getListofManagers();
+  async function getListofManagers() {
+    let managerInfo = await db.getManagersList();
+    managerInfo.forEach((manager) =>
+      managerNames.push(manager.first_name + " " + manager.last_name)
+    );
 
-  const managers = [
-    {
-      type: "list",
-      name: "managerList",
-      message: "Select the Manager",
-      choices: managerNames,
-    },
-  ];
-  inquirer.prompt(managers).then((answer) => {
-    switch (answer.managerList) {
-      case managerNames[0]:
-        managerSelected.push(managerInfo[0].id);
-        async function getManagerStaff(managerSelected) {
-          let managerEmployees = await db.findAllEmployeesByManager(
-            managerSelected
-          );
-          tabularView = consoleT.getTable([], managerEmployees);
-          console.log(tabularView);
-        }
-        getManagerStaff(managerSelected);
+    managerInfo.forEach((managerNum) => managerIds.push(managerNum.id));
 
-        break;
+    const managers = [
+      {
+        type: "list",
+        name: "managerList",
+        message: "Select the Manager",
+        choices: managerNames,
+      },
+    ];
+    inquirer.prompt(managers).then((answer) => {
+      let selectedManager =
+        managerIds[managerNames.indexOf(answer.managerList)];
+      managerStaff(selectedManager);
+      async function managerStaff(selectedManager) {
+        let managerEmployees = await db.findAllEmployeesByManager(
+          selectedManager
+        );
 
-      case managerNames[1]:
-        managerSelected.push(managerInfo[1].id);
-        getManagerStaff(managerSelected);
-
-        break;
-
-      case managerNames[2]:
-        managerSelected.push(managerInfo[2].id);
-        getManagerStaff(managerSelected);
-    }
-  });
+        tabularView = consoleT.getTable([], managerEmployees);
+        console.log(tabularView);
+      }
+      start();
+    });
+  }
 }
 
 async function getListofManagers() {
@@ -313,15 +303,13 @@ async function getListofManagers() {
   managerInfo.forEach((manager) =>
     managerNames.push(manager.first_name + " " + manager.last_name)
   );
-
   managerInfo.forEach((manager) => managerIds.push(manager.id));
 }
 
 async function getListofRoles() {
-  let managerInfo = await db.getRoles();
-  managerInfo.forEach((roles) => getRoles.push(roles.title));
-  managerInfo.forEach((roles) => roleIds.push(roles.id));
+  let roleInfo = await db.getRoles();
+  roleInfo.forEach((roles) => getRoles.push(roles.title));
+  roleInfo.forEach((roles) => roleIds.push(roles.id));
 }
 
-getAllEmployeesbyDepartment()
-
+start();
